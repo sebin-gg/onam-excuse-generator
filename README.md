@@ -1,22 +1,173 @@
-# 🎉 Onam Excuse Generator 🍌
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onam Excuse Generator 🎉</title>
+  <link rel="icon" type="image/png" href="logo.png"> <!-- Add your logo image in repo -->
+  <style>
+    /* Reset */
+    body, html {
+      margin: 0;
+      padding: 0;
+    }
 
-A fun and simple webpage that generates **funny excuses** for why you might be late to the Onam *sadya*!  
+    body {
+      font-family: 'Trebuchet MS', sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #ffeaa7, #fab1a0, #fd79a8);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #2d3436;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
----
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
 
-## 🚀 How to Use
-1. Visit the hosted page: [GitHub Pages Link](https://your-username.github.io/onam-excuse-generator/)
-2. Enter your name
-3. Get your personalized Onam excuse 😄
+    h1 {
+      color: #6c3483;
+      margin-bottom: 10px;
+      font-size: 2rem;
+    }
 
----
+    p {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
 
-## 🌼 Example
-> Anu, your Onam excuse is: You slipped on spilled payasam and needed recovery time 🥣!
+    input, button {
+      padding: 12px 16px;
+      margin: 8px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
 
----
+    input {
+      width: 70%;
+      max-width: 300px;
+      border: 2px solid #6c3483;
+    }
 
-## 💡 Tech
-- HTML
-- CSS
-- JavaScript
+    button {
+      background-color: #6c3483;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background-color: #4a235a;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #1b4f72;
+      min-height: 40px;
+    }
+
+    img.mahabali {
+      width: 150px;
+      margin: 20px 0;
+    }
+
+    /* Loading Screen */
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff8e7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #6c3483;
+      z-index: 1000;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.6rem;
+      }
+      .result {
+        font-size: 1.1rem;
+      }
+      img.mahabali {
+        width: 120px;
+      }
+    }
+  </style>
+</head>
+<body onload="hideLoader()">
+
+  <!-- Loading Screen -->
+  <div id="loading">🌼 Getting your excuses ready... 🍌</div>
+
+  <h1>🎉 Onam Excuse Generator 🍌</h1>
+  <p>Enter your name to get a funny excuse for being late to the sadya!</p>
+
+  <img src="mahabali.png" alt="Mahabali" class="mahabali">
+
+  <input type="text" id="nameInput" placeholder="Enter your name">
+  <button onclick="generateExcuse()">Generate Excuse</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    const excuses = [
+      "got delayed folding banana leaves 🍃",
+      "was busy chasing a cow that ran into the sadya hall 🐄",
+      "had to count all the papadams one by one 🍪",
+      "slipped on spilled payasam and needed recovery time 🥣",
+      "was helping Mahabali find his missing umbrella ☂️",
+      "got stuck untangling flower garlands 🌸",
+      "was testing how many banana chips are too many 🍌",
+      "lost track of time arguing if sambar or rasam is superior 🍲",
+      "was trying to perfect the art of serving payasam without spilling 😅",
+      "was meditating on the deeper meaning of avial 🥗"
+    ];
+
+    let lastExcuse = "";
+
+    function generateExcuse() {
+      const name = document.getElementById("nameInput").value.trim();
+      const resultDiv = document.getElementById("result");
+
+      if (!name) {
+        resultDiv.innerText = "🙏 Please enter your name first!";
+        return;
+      }
+
+      let excuse;
+      do {
+        excuse = excuses[Math.floor(Math.random() * excuses.length)];
+      } while (excuse === lastExcuse);
+
+      lastExcuse = excuse;
+
+      resultDiv.innerText = `${name}, your Onam excuse is: You ${excuse}!`;
+    }
+
+    function hideLoader() {
+      setTimeout(() => {
+        document.getElementById("loading").style.display = "none";
+      }, 1200); // 1.2s loading screen
+    }
+  </script>
+</body>
+</html>
