@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c # v2.21.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 20
+      - name: Check JS syntax
+        run: |
+          set -e
+          files=$(find . -name '*.js' -not -path './node_modules/*')
+          if [ -n "$files" ]; then
+            for f in $files; do node --check "$f"; done
+          fi
+      - name: Check HTML
+        run: |
+          set -e
+          for f in $(find . -name '*.html' -not -path './node_modules/*'); do
+            python -c "import sys; from html.parser import HTMLParser; p=HTMLParser(); p.feed(open('$f', encoding='utf-8', errors='ignore').read())" || exit 1
+          done
