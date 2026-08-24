@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sebin-gg.github.io/onam-excuse-generator/sitemap.xml
