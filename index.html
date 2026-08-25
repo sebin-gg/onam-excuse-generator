@@ -177,7 +177,7 @@
 
       let excuse;
       do {
-        excuse = excuses[Math.floor(Math.random() * excuses.length)];
+        excuse = excuses[crypto.getRandomValues(new Uint32Array(1))[0] % excuses.length];
       } while (excuse === lastExcuse);
 
       lastExcuse = excuse;
